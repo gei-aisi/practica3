@@ -3,7 +3,7 @@
   # Add necessary lines here
 
 - name: Build Docker images from Dockerfiles
-  docker_image:
+  community.docker.docker_image:
     name: "{{ item.name }}"
     source: XXX
     build:
@@ -16,13 +16,13 @@
     - { name: "{{ db_img }}", directory: db }
 
 - name: Create network
-  docker_network:
+  community.docker.docker_network:
   # Add necessary lines here
 
 - name: Run MySQL container
-  docker_container:
+  community.docker.docker_container:
   # Add necessary lines here
 
 - name: Run Flask container
-  docker_container:
+  community.docker.docker_container:
   # Add necessary lines here

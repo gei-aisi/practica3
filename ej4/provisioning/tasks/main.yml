@@ -1,27 +1,27 @@
 - name: Install wordpress
-  apt: name=wordpress state=latest
+  ansible.builtin.apt: name=wordpress state=latest
     
 - name: Copy Wordpress config template
-  template:
+  ansible.builtin.template:
     src: templates/config-default.php.j2
     dest: /etc/wordpress/config-default.php
     owner: root
     group: root
         
 - name: Creates MySQL database for WordPress
-  mysql_db:
+  community.mysql.mysql_db:
     name: "{{ mysql_db }}"
     state: present
 
 - name: Create MySQL user for WordPress
-  mysql_user:
+  community.mysql.mysql_user:
     name: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
     priv: "{{ mysql_db }}.*:ALL"
     state: present
 
 - name: Create symbolic link
-  file:
+  ansible.builtin.file:
     src: /usr/share/wordpress
     dest: /var/www/html/wordpress
     owner: root

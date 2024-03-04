@@ -13,5 +13,5 @@
     - geerlingguy.php
 
   tasks:
-    - import_tasks: tasks/main.yml
+    - ansible.builtin.import_tasks: tasks/main.yml
 
