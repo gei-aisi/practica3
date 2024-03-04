@@ -2,12 +2,15 @@
 
 # Install ansible and other stuff
 dnf clean all
-dnf -y install epel-release python3-setuptools wget curl vim nano ansible
+dnf -y install epel-release python3-setuptools wget curl vim nano ansible langpacks-es
 mkdir -p /etc/ansible
 cp /vagrant/provisioning/ansible.cfg /etc/ansible
 cp /vagrant/ansible.inventory /etc/ansible/hosts
 chmod 0644 /etc/ansible/ansible.cfg
 chmod 0644 /etc/ansible/hosts
+
+passwd -d root
+echo 'root:vagrant' | chpasswd -m
 
 SSH_PUBLIC_KEY=/vagrant/provisioning/id_rsa.pub
 USER_DIR=/home/vagrant/.ssh

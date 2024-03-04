@@ -1,7 +1,10 @@
 #!/bin/bash
 
 dnf clean all
-dnf -y install epel-release python3-setuptools wget curl vim nano
+dnf -y install epel-release python3-setuptools wget curl vim nano langpacks-es
+
+passwd -d root
+echo 'root:vagrant' | chpasswd -m
 
 # Copy ssh public key
 SSH_PUBLIC_KEY=/vagrant/provisioning/id_rsa.pub
@@ -12,13 +15,13 @@ if [ ! -f $SSH_PUBLIC_KEY ]; then
 	exit -1
 fi
 
-sed -i "/-aisi/d" $USER_DIR/authorized_keys >& /dev/null
+sed -i "/vagrant@/d" $USER_DIR/authorized_keys >& /dev/null
 cat $SSH_PUBLIC_KEY >> $USER_DIR/authorized_keys
 chown vagrant:vagrant $USER_DIR/authorized_keys
 chmod 0600 $USER_DIR/authorized_keys
 
 # Configure firewalld for webapp server
-if [[ "$HOSTNAME" == *"-webapp" ]]; then
+if [[ "$HOSTNAME" == *"-web" ]]; then
 	firewall-cmd --permanent --add-service=http
 fi
 
