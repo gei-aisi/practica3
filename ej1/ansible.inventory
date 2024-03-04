@@ -1,10 +1,10 @@
 # Web application server
-[webapp]
-xxx-aisi2223-webapp
+[web]
+xxx2324-web
 # Database server
 [db]
-xxx-aisi2223-db
-# Group 'servers' with webapp and db
+xxx2324-db
+# Group 'servers' with web and db
 [servers:children]
-webapp
+web
 db
