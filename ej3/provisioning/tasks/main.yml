@@ -2,6 +2,18 @@
 - name: Install Docker SDK for Python
   # Add necessary lines here
 
+- name: Copy docker directory
+  ansible.builtin.copy:
+  # Add necessary lines here
+
+- name: Copy app.py.j2 template
+  ansible.builtin.template:
+  # Add necessary lines here
+ 
+- name: Copy nginx.conf template
+  ansible.builtin.template:
+  # Add necessary lines here
+
 - name: Build Docker images from Dockerfiles
   community.docker.docker_image:
     name: "{{ item.name }}"
@@ -14,6 +26,7 @@
   loop:
     - { name: "{{ webapp_img }}", directory: webapp }
     - { name: "{{ db_img }}", directory: db }
+    - { name: "{{ nginx_img }}", directory: nginx }
 
 - name: Create network
   community.docker.docker_network:
@@ -21,8 +34,32 @@
 
 - name: Run MySQL container
   community.docker.docker_container:
-  # Add necessary lines here
+    image: "XXX"
+    name: "XXX"
+    state: XXX
+    restart: yes
+    networks:
+      - name: "XXX"
+    networks_cli_compatible: XXX
 
 - name: Run Flask container
   community.docker.docker_container:
-  # Add necessary lines here
+    image: "XXX"
+    name: "XXX"
+    state: XXX
+    restart: yes
+    networks:
+      - name: "XXX"
+    networks_cli_compatible: XXX
+
+- name: Run Nginx container
+  community.docker.docker_container:
+    image: "XXX"
+    name: "XXX"
+    state: XXX
+    restart: yes
+    published_ports: "XXX"
+    networks:
+      - name: "XXX"
+    networks_cli_compatible: XXX
+

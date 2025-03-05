@@ -1,5 +1,9 @@
-webapp_container: xxx2324-web
-db_container: xxx2324-db
-webapp_img: xxx2324-web
-db_img: xxx2324-db
-network: xxx2324-network
+student_name: "Nombre y apellidos del alumno/a"
+student_prefix: "X"
+webapp_container: "{{ student_prefix }}-webapp"
+db_container: "{{ student_prefix }}-db"
+webapp_img: "{{ student_prefix }}-web_img"
+db_img: "{{ student_prefix }}-db_img"
+nginx_container: "{{ student_prefix }}-nginx"
+nginx_img: "{{ student_prefix }}-nginx_img"
+container_network: "{{ student_prefix }}-network"

@@ -1,5 +1,5 @@
 # Modify variables http_user, http_host y http_conf accordingly
-http_user: "Nombre y apellidos"
-http_host: "xxx2324-vhost"
-http_conf: "xxx2324.conf"
+http_user: "Nombre y apellidos del alumno/a"
+http_host: "X-vhost"
+http_conf: "X.conf"
 default_site: 000-default.conf

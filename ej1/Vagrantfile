@@ -1,22 +1,23 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 require_relative 'provisioning/vbox.rb'
-VBoxUtils.check_version('7.0.14')
-Vagrant.require_version ">= 2.4.1"
+VBoxUtils.check_version('7.1.6')
+Vagrant.require_version ">= 2.4.3"
 
+STUDEN_PREFIX = "X"
 # Ansible controller
-ansible_controller_hostname = "xxx2324-ansible"
+ansible_controller_hostname = "#{STUDEN_PREFIX}-ansible"
 # Web application server
-webapp_hostname = "xxx2324-web"
+webapp_hostname = "#{STUDEN_PREFIX}-web"
 # Database server
-db_hostname = "xxx2324-db"
+db_hostname = "#{STUDEN_PREFIX}-db"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/rocky8"
   config.vm.box_version = "4.3.12"
   config.vm.box_check_update = false
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
-
+  
   # Configure hostmanager and vbguest plugins
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
@@ -38,7 +39,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Web application server
-  config.vm.define "webapp" do |app|
+  config.vm.define "web" do |app|
     app.vm.hostname = webapp_hostname
     app.vm.network "forwarded_port", guest: 80, host: 8080
     app.vm.network "private_network", ip: "192.168.56.11"

@@ -1,13 +1,21 @@
 # Complete task definition
 - name: Install apache server
+  ansible.builtin.package:
 
 - name: Enable rewrite Apache module
+  community.general.apache2_module:
 
 - name: Disable Apache default site
+  ansible.builtin.file:
 
 - name: Create document root
+  ansible.builtin.file:
 
 - name: Copy index.html template page
+  ansible.builtin.template:
 
 - name: Setup Apache virtual host
+  ansible.builtin.template:
 
+- name: Copy static files
+  ansible.builtin.copy:

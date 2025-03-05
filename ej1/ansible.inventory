@@ -1,9 +1,9 @@
 # Web application server
 [web]
-xxx2324-web
+X-web
 # Database server
 [db]
-xxx2324-db
+X-db
 # Group 'servers' with web and db
 [servers:children]
 web

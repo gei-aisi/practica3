@@ -1,39 +1,56 @@
-var express = require('express');
-var mysql = require('mysql');
-var app = express();
+const express = require('express');
+const mysql = require('mysql');
+const path = require('path');
+const app = express();
 
-app.get('/', function(req, res) {
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
+app.post('/db', (req, res) => {
+    const username = req.body.username;
+    const hostname = req.body.hostname;
+    const password = req.body.password;
+    const database = req.body.database;
+    const userId = req.body.userId;
+    const courseId = req.body.courseId;
+    const db_uri = "mysql://"+username+"@"+hostname+":3306/"+database;
+
     var connection = mysql.createConnection({
-      host     : "xxx2324-db",
-      user     : "xxx2324",
-      password : "12345",
-      database : "xxx2324-database"
+      host     : hostname,
+      user     : username,
+      password : password,
+      database : database
     });
 
-    var url = req.protocol + '://' + req.get('host') + req.originalUrl;
-
-    connection.connect(function(err) {
-	var height = '200px';
-	if(err)
-		height = '230px';
-
-	var course = '<h3><u>GEI AISI 2023/2024</u></h3>';
-	var img = '<p><img src="https://gac.udc.es/~rober/aisi/udc.png" style="max-width: 300px; width: auto;"></p>';
-	var header = '<html><head><title>GEI AISI</title></head><div style="width:600px;height:'+height+';border:2px solid #000;text-align: center;">';
-	var msg = header +'<body><strong>'+img+course+'<p><u>Node.js+Express+MariaDB (Ansible)</u><p>'+url+'<p>'+new Date()+'<p>MariaDB connection from user '+connection.config.user+': ';
-	var footer = '</strong></div></body></html>';
-
-        if(!err) {
-	    res.type('text/html').send(msg + '<span style="color: green;">OK</span>'+footer);
+    connection.connect(function(error) {
+        const data = {
+            courseId: courseId,
+            height: "475px",
+            dburi: db_uri,
+            result: " FAILED",
+            color: "red",
+            username: connection.config.user,
+            userId: userId
+        };
+    
+        if(!error) {
+	        data.result = " OK";
+	        data.color = "green";
         } else {
-            res.type('text/html').send(msg + '<span style="color: red;">FAILED</span><p>'+err+footer);
+            data.result = " FAILED ("+error+")";
         }
+        
         connection.end();
+	    res.render('db', data);
     });
 });
 
 app.listen(80, function () {
-    console.log('Node.js app listening on port 80!');
+    console.log('Node.js webapp listening on port 80!');
 });
-
-

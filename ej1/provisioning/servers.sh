@@ -5,6 +5,15 @@ dnf -y install epel-release python3-setuptools wget curl vim nano langpacks-es
 
 passwd -d root
 echo 'root:vagrant' | chpasswd -m
+passwd -d vagrant
+echo 'vagrant:vagrant' | chpasswd -m
+
+# SSH config
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sed -i 's/#PasswordAuthentication/PasswordAuthentication/' /etc/ssh/sshd_config
+sed -i 's/KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/' /etc/ssh/sshd_config
+sed -i 's/#KbdInteractiveAuthentication/KbdInteractiveAuthentication/' /etc/ssh/sshd_config
+systemctl restart sshd
 
 # Copy ssh public key
 SSH_PUBLIC_KEY=/vagrant/provisioning/id_rsa.pub
@@ -15,7 +24,7 @@ if [ ! -f $SSH_PUBLIC_KEY ]; then
 	exit -1
 fi
 
-sed -i "/vagrant@/d" $USER_DIR/authorized_keys >& /dev/null
+sed -i "/-aisi/d" $USER_DIR/authorized_keys >& /dev/null
 cat $SSH_PUBLIC_KEY >> $USER_DIR/authorized_keys
 chown vagrant:vagrant $USER_DIR/authorized_keys
 chmod 0600 $USER_DIR/authorized_keys
