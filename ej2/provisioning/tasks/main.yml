@@ -19,3 +19,7 @@
 
 - name: Copy static files
   ansible.builtin.copy:
+  # Add necessary module parameters before loop
+  loop:
+    - apache.png
+    - udc.png
