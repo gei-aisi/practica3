@@ -1,0 +1,57 @@
+services:
+  prometheus:
+    image: XXX
+    container_name: "{{ prometheus_service }}"
+    restart: unless-stopped
+    ports:
+      - XXX
+    user: "1000:1000"
+    volumes:
+      - ./prometheus_data:/prometheus
+      - ./prometheus_config:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'    
+    networks:
+      - XXX
+
+  grafana:
+    image: XXX
+    container_name: "{{ grafana_service }}"
+    restart: unless-stopped
+    ports:
+      - XXX
+    user: "1000:1000"
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+      - ./grafana_config/provisioning:/etc/grafana/provisioning
+      - ./grafana_config/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - XXX
+    depends_on:
+      - prometheus
+
+  "{{ exporter_service }}":
+    image: XXX
+    container_name: "{{ exporter_service }}"
+    restart: unless-stopped
+    pid: host
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - XXX
+    networks:
+      - XXX
+
+networks:
+  monitoring_network:
+    driver: bridge

@@ -1,0 +1,28 @@
+- name: Install wordpress
+  ansible.builtin.package:
+  # Add necessary lines here
+    
+- name: Copy Wordpress config template
+  ansible.builtin.template:
+  # Add necessary lines here
+        
+- name: Creates MySQL database for WordPress
+  community.mysql.mysql_db:
+    name: "XXX"
+    state: XXX
+
+- name: Create MySQL user for WordPress
+  community.mysql.mysql_user:
+    name: "XXX"
+    password: "XXX"
+    priv: "XXX"
+    host: XXX
+    state: XXX
+
+- name: Create symbolic link
+  ansible.builtin.file:
+    src: /usr/share/wordpress
+    dest: /var/www/html/wordpress
+    owner: root
+    group: root
+    state: link

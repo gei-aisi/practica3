@@ -1,31 +1,33 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 require_relative 'provisioning/vbox.rb'
-VBoxUtils.check_version('7.1.6')
-Vagrant.require_version ">= 2.4.3"
+VBoxUtils.check_version('7.2.4')
+Vagrant.require_version ">= 2.4.9"
+
+STUDEN_PREFIX = "X"
+BOX_NAME = "Y"
 
 Vagrant.configure("2") do |config|
-    config.vm.box = ""
-    config.vm.hostname = "X-ansible"
-    config.vm.network "forwarded_port", guest: 80, host: 8080
-    config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+  config.vm.box = BOX_NAME
+  config.vm.hostname = "#{STUDEN_PREFIX}-ansible"
+  config.vm.network "forwarded_port", guest: 80, host: 8080
 
-    # Configure hostmanager and vbguest plugins
-    config.hostmanager.enabled = true
-    config.hostmanager.manage_host = true
-    config.hostmanager.manage_guest = true
-    config.vbguest.auto_update = false
+  # Configure hostmanager plugin
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
 
-    config.vm.provider "virtualbox" do |vb|
-	vb.name = "AISI-P3-EJ2-#{config.vm.hostname}"
-	vb.cpus = 1
-	vb.memory = 1024
-	vb.gui = false
-    end
+  config.vm.provider "virtualbox" do |vb|
+	  vb.name = "AISI-P3-EJ2-#{config.vm.hostname}"
+	  vb.cpus = 1
+	  vb.memory = 1024
+	  vb.gui = false
+	  vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]
+  end
 
-    config.vm.provision "bootstrap", run: "once", type: "" do |ansible|
-	ansible.install = ""
-	ansible.install_mode = ""
-	ansible.playbook = ""
-    end
+  config.vm.provision "ansible", run: "once", type: "XXX" do |ansible|
+	  ansible.install = "XXX"
+	  ansible.install_mode = "XXX"
+	  ansible.playbook = "XXX"
+  end
 end

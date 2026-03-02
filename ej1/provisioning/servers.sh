@@ -1,19 +1,6 @@
 #!/bin/bash
 
-dnf clean all
-dnf -y install epel-release python3-setuptools wget curl vim nano langpacks-es
-
-passwd -d root
-echo 'root:vagrant' | chpasswd -m
-passwd -d vagrant
-echo 'vagrant:vagrant' | chpasswd -m
-
-# SSH config
-sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
-sed -i 's/#PasswordAuthentication/PasswordAuthentication/' /etc/ssh/sshd_config
-sed -i 's/KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/' /etc/ssh/sshd_config
-sed -i 's/#KbdInteractiveAuthentication/KbdInteractiveAuthentication/' /etc/ssh/sshd_config
-systemctl restart sshd
+dnf -y install python3-setuptools wget curl vim nano lynx
 
 # Copy ssh public key
 SSH_PUBLIC_KEY=/vagrant/provisioning/id_rsa.pub

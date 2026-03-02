@@ -1,15 +1,16 @@
-FROM ubuntu:jammy
-RUN apt-get update \
-	&& apt-get install -y pkg-config libmysqlclient-dev python3-pip python3-dev \
-	&& pip3 install flask flask-sqlalchemy mysqlclient \
-	&& apt-get --purge autoremove \
-	&& apt-get autoclean \
-	&& apt-get clean all
+FROM XXX
+RUN apk add --no-cache mariadb-connector-c \
+    && apk add --no-cache --virtual .build-deps \
+        build-base \
+        pkgconf \
+        mariadb-dev \
+    && pip install --no-cache-dir XXX \
+    && apk del .build-deps
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=5000
 ENV FLASK_DEBUG=True
-WORKDIR /var/www
-COPY src /var/www
-EXPOSE 5000/tcp
+WORKDIR XXX
+COPY src .
+EXPOSE XXX
 ENTRYPOINT ["flask", "run"]

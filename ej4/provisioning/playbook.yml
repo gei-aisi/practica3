@@ -1,17 +1,9 @@
 ---
 - hosts: all
-  become: true
+  become: yes
 
   vars_files:
-    vars/main.yml
-
-  roles:
-    - geerlingguy.firewall
-    - geerlingguy.mysql
-    - geerlingguy.apache
-    - geerlingguy.php-mysql
-    - geerlingguy.php
+    - vars/main.yml
 
   tasks:
     - ansible.builtin.import_tasks: tasks/main.yml
-
